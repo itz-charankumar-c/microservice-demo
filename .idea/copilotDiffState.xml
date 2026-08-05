@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/application (snapshot).yml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/application (snapshot).yml" />
+              <option name="originalContent" value="spring:&#10;  application:&#10;    name: department-service&#10;  datasource:&#10;    url: jdbc:postgresql://localhost:5432/department_db&#10;    username: postgres&#10;    password: postgres&#10;    driver-class-name: org.postgresql.Driver&#10;  jpa:&#10;    hibernate:&#10;      ddl-auto: update&#10;    show-sql: true&#10;    properties:&#10;      hibernate:&#10;        format_sql: true&#10;        dialect: org.hibernate.dialect.PostgreSQLDialect&#10;&#10;server:&#10;  port: 8081&#10;&#10;" />
+              <option name="updatedContent" value="spring:&#10;  application:&#10;    name: department-service&#10;  datasource:&#10;    url: jdbc:postgresql://localhost:5432/department_db&#10;    username: postgres&#10;    password: postgres&#10;    driver-class-name: org.postgresql.Driver&#10;  jpa:&#10;    hibernate:&#10;      ddl-auto: update&#10;    show-sql: false       # OFF in prod — enable via 'dev' profile&#10;    properties:&#10;      hibernate:&#10;        dialect: org.hibernate.dialect.PostgreSQLDialect&#10;&#10;server:&#10;  port: 8081&#10;&#10;---&#10;# Dev profile: activate with --spring.profiles.active=dev&#10;spring:&#10;  config:&#10;    activate:&#10;      on-profile: dev&#10;  jpa:&#10;    show-sql: true&#10;    properties:&#10;      hibernate:&#10;        format_sql: true&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/department-service/src/main/java/com/demo/department/service/DepartmentService.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/department-service/src/main/java/com/demo/department/service/DepartmentService.java" />
+              <option name="originalContent" value="package com.demo.department.service;&#10;&#10;import com.demo.department.entity.Department;&#10;import com.demo.department.repository.DepartmentRepository;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.stereotype.Service;&#10;import org.springframework.transaction.annotation.Transactional;&#10;&#10;import java.util.Optional;&#10;&#10;@Service&#10;@Transactional(readOnly = true)&#10;@RequiredArgsConstructor&#10;public class DepartmentService {&#10;&#10;    private final DepartmentRepository departmentRepository;&#10;&#10;    @Transactional&#10;    public Department createDepartment(Department department) {&#10;        return departmentRepository.save(department);&#10;    }&#10;&#10;    public Optional&lt;Department&gt; getDepartmentById(Long id) {&#10;        return departmentRepository.findById(id);&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package com.demo.department.service;&#13;&#10;&#13;&#10;import com.demo.department.dto.DepartmentResponseDto;&#13;&#10;import com.demo.department.entity.Department;&#13;&#10;import com.demo.department.repository.DepartmentRepository;&#13;&#10;import lombok.RequiredArgsConstructor;&#13;&#10;import org.springframework.stereotype.Service;&#13;&#10;import org.springframework.transaction.annotation.Transactional;&#13;&#10;&#13;&#10;import java.util.Optional;&#13;&#10;&#13;&#10;@Service&#13;&#10;@Transactional(readOnly = true)&#13;&#10;@RequiredArgsConstructor&#13;&#10;public class DepartmentService {&#13;&#10;&#13;&#10;    private final DepartmentRepository departmentRepository;&#13;&#10;&#13;&#10;    @Transactional&#13;&#10;    public DepartmentResponseDto createDepartment(Department department) {&#13;&#10;        Department saved = departmentRepository.save(department);&#13;&#10;        return toDto(saved);&#13;&#10;    }&#13;&#10;&#13;&#10;    public Optional&lt;DepartmentResponseDto&gt; getDepartmentById(Long id) {&#13;&#10;        return departmentRepository.findById(id).map(this::toDto);&#13;&#10;    }&#13;&#10;&#13;&#10;    private DepartmentResponseDto toDto(Department d) {&#13;&#10;        return DepartmentResponseDto.builder()&#13;&#10;                .id(d.getId())&#13;&#10;                .name(d.getName())&#13;&#10;                .code(d.getCode())&#13;&#10;                .description(d.getDescription())&#13;&#10;                .build();&#13;&#10;    }&#13;&#10;}&#13;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/department-service/src/main/resources/application.yml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/department-service/src/main/resources/application.yml" />
+              <option name="updatedContent" value="spring:&#10;  application:&#10;    name: department-service&#10;  datasource:&#10;    url: jdbc:postgresql://localhost:5432/department_db&#10;    username: postgres&#10;    password: postgres&#10;    driver-class-name: org.postgresql.Driver&#10;  jpa:&#10;    hibernate:&#10;      ddl-auto: update&#10;    show-sql: false       # OFF in prod — enable via 'dev' profile&#10;    properties:&#10;      hibernate:&#10;        dialect: org.hibernate.dialect.PostgreSQLDialect&#10;&#10;server:&#10;  port: 8081&#10;&#10;---&#10;# Dev profile: activate with --spring.profiles.active=dev&#10;spring:&#10;  config:&#10;    activate:&#10;      on-profile: dev&#10;  jpa:&#10;    show-sql: true&#10;    properties:&#10;      hibernate:&#10;        format_sql: true&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/client/DepartmentServiceClient.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/client/DepartmentServiceClient.java" />
+              <option name="updatedContent" value="package com.demo.employee.client;&#10;&#10;import com.demo.employee.dto.DepartmentDto;&#10;import com.demo.employee.exception.DepartmentServiceException;&#10;import lombok.RequiredArgsConstructor;&#10;import lombok.extern.slf4j.Slf4j;&#10;import org.springframework.stereotype.Component;&#10;import org.springframework.web.client.RestClient;&#10;import org.springframework.web.client.RestClientException;&#10;&#10;/** Calls the department-service REST API. Single responsibility: HTTP communication only. */&#10;@Slf4j&#10;@Component&#10;@RequiredArgsConstructor&#10;public class DepartmentServiceClient {&#10;&#10;    private final RestClient departmentRestClient;&#10;&#10;    public DepartmentDto getDepartmentById(Long id) {&#10;        try {&#10;            return departmentRestClient.get()&#10;                    .uri(&quot;/api/departments/{id}&quot;, id)&#10;                    .retrieve()&#10;                    .body(DepartmentDto.class);&#10;        } catch (RestClientException ex) {&#10;            log.error(&quot;Failed to fetch department id={}: {}&quot;, id, ex.getMessage());&#10;            throw new DepartmentServiceException(&#10;                    &quot;Department service unavailable while fetching department id=&quot; + id);&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/config/RestClientConfig.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/config/RestClientConfig.java" />
+              <option name="updatedContent" value="package com.demo.employee.config;&#10;&#10;import org.springframework.beans.factory.annotation.Value;&#10;import org.springframework.context.annotation.Bean;&#10;import org.springframework.context.annotation.Configuration;&#10;import org.springframework.web.client.RestClient;&#10;&#10;@Configuration&#10;public class RestClientConfig {&#10;&#10;    @Value(&quot;${department.service.base-url}&quot;)&#10;    private String departmentServiceBaseUrl;&#10;&#10;    /** RestClient pre-configured with the department-service base URL. */&#10;    @Bean&#10;    public RestClient departmentRestClient() {&#10;        return RestClient.builder()&#10;                .baseUrl(departmentServiceBaseUrl)&#10;                .build();&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/dto/DepartmentDto.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/dto/DepartmentDto.java" />
+              <option name="updatedContent" value="package com.demo.employee.dto;&#10;&#10;import lombok.AllArgsConstructor;&#10;import lombok.Data;&#10;import lombok.NoArgsConstructor;&#10;&#10;/** Maps the JSON response received from department-service. */&#10;@Data&#10;@NoArgsConstructor&#10;@AllArgsConstructor&#10;public class DepartmentDto {&#10;    private Long id;&#10;    private String name;&#10;    private String code;&#10;    private String description;&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/dto/EmployeeDetailsDto.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/dto/EmployeeDetailsDto.java" />
+              <option name="updatedContent" value="package com.demo.employee.dto;&#10;&#10;import lombok.AllArgsConstructor;&#10;import lombok.Builder;&#10;import lombok.Data;&#10;import lombok.NoArgsConstructor;&#10;&#10;/** Combined response for GET /api/employees/{id}/details. */&#10;@Data&#10;@NoArgsConstructor&#10;@AllArgsConstructor&#10;@Builder&#10;public class EmployeeDetailsDto {&#10;&#10;    private Long id;&#10;    private String name;            // firstName + lastName&#10;    private DepartmentInfo department;&#10;&#10;    @Data&#10;    @NoArgsConstructor&#10;    @AllArgsConstructor&#10;    public static class DepartmentInfo {&#10;        private Long id;&#10;        private String departmentName;  // mapped from DepartmentDto.name&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/exception/DepartmentServiceException.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/exception/DepartmentServiceException.java" />
+              <option name="updatedContent" value="package com.demo.employee.exception;&#10;&#10;/** Thrown when the department-service is unreachable or returns an error. */&#10;public class DepartmentServiceException extends RuntimeException {&#10;    public DepartmentServiceException(String message) {&#10;        super(message);&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/exception/GlobalExceptionHandler.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/exception/GlobalExceptionHandler.java" />
+              <option name="updatedContent" value="package com.demo.employee.exception;&#10;&#10;import jakarta.persistence.EntityNotFoundException;&#10;import org.springframework.http.HttpStatus;&#10;import org.springframework.http.ResponseEntity;&#10;import org.springframework.web.bind.annotation.ExceptionHandler;&#10;import org.springframework.web.bind.annotation.RestControllerAdvice;&#10;&#10;import java.time.Instant;&#10;import java.util.Map;&#10;&#10;@RestControllerAdvice&#10;public class GlobalExceptionHandler {&#10;&#10;    @ExceptionHandler(EntityNotFoundException.class)&#10;    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleNotFound(EntityNotFoundException ex) {&#10;        return ResponseEntity.status(HttpStatus.NOT_FOUND)&#10;                .body(errorBody(HttpStatus.NOT_FOUND, ex.getMessage()));&#10;    }&#10;&#10;    @ExceptionHandler(DepartmentServiceException.class)&#10;    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleDeptServiceDown(DepartmentServiceException ex) {&#10;        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)&#10;                .body(errorBody(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage()));&#10;    }&#10;&#10;    private Map&lt;String, Object&gt; errorBody(HttpStatus status, String message) {&#10;        return Map.of(&#10;                &quot;timestamp&quot;, Instant.now().toString(),&#10;                &quot;status&quot;, status.value(),&#10;                &quot;error&quot;, status.getReasonPhrase(),&#10;                &quot;message&quot;, message&#10;        );&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/service/EmployeeService.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/java/com/demo/employee/service/EmployeeService.java" />
+              <option name="originalContent" value="package com.demo.employee.service;&#10;&#10;import com.demo.employee.entity.Employee;&#10;import com.demo.employee.repository.EmployeeRepository;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.stereotype.Service;&#10;import org.springframework.transaction.annotation.Transactional;&#10;&#10;import java.util.Optional;&#10;&#10;@Service&#10;@Transactional(readOnly = true)&#10;@RequiredArgsConstructor&#10;public class EmployeeService {&#10;&#10;    private final EmployeeRepository employeeRepository;&#10;&#10;    @Transactional&#10;    public Employee createEmployee(Employee employee) {&#10;        return employeeRepository.save(employee);&#10;    }&#10;&#10;    public Optional&lt;Employee&gt; getEmployeeById(Long id) {&#10;        return employeeRepository.findById(id);&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package com.demo.employee.service;&#13;&#10;&#13;&#10;import com.demo.employee.client.DepartmentServiceClient;&#13;&#10;import com.demo.employee.dto.DepartmentDto;&#13;&#10;import com.demo.employee.dto.EmployeeDetailsDto;&#13;&#10;import com.demo.employee.entity.Employee;&#13;&#10;import com.demo.employee.repository.EmployeeRepository;&#13;&#10;import jakarta.persistence.EntityNotFoundException;&#13;&#10;import lombok.RequiredArgsConstructor;&#13;&#10;import org.springframework.stereotype.Service;&#13;&#10;import org.springframework.transaction.annotation.Transactional;&#13;&#10;&#13;&#10;import java.util.Optional;&#13;&#10;&#13;&#10;@Service&#13;&#10;@Transactional(readOnly = true)&#13;&#10;@RequiredArgsConstructor&#13;&#10;public class EmployeeService {&#13;&#10;&#13;&#10;    private final EmployeeRepository employeeRepository;&#13;&#10;    private final DepartmentServiceClient departmentServiceClient;&#13;&#10;&#13;&#10;    @Transactional&#13;&#10;    public Employee createEmployee(Employee employee) {&#13;&#10;        return employeeRepository.save(employee);&#13;&#10;    }&#13;&#10;&#13;&#10;    public Optional&lt;Employee&gt; getEmployeeById(Long id) {&#13;&#10;        return employeeRepository.findById(id);&#13;&#10;    }&#13;&#10;&#13;&#10;    /** Fetches employee from DB, then calls department-service to build the combined response. */&#13;&#10;    public EmployeeDetailsDto getEmployeeDetails(Long id) {&#13;&#10;        Employee employee = employeeRepository.findById(id)&#13;&#10;                .orElseThrow(() -&gt; new EntityNotFoundException(&quot;Employee not found with id=&quot; + id));&#13;&#10;&#13;&#10;        DepartmentDto department = departmentServiceClient.getDepartmentById(employee.getDepartmentId());&#13;&#10;&#13;&#10;        return EmployeeDetailsDto.builder()&#13;&#10;                .id(employee.getId())&#13;&#10;                .name(employee.getFirstName() + &quot; &quot; + employee.getLastName())&#13;&#10;                .department(new EmployeeDetailsDto.DepartmentInfo(department.getId(), department.getName()))&#13;&#10;                .build();&#13;&#10;    }&#13;&#10;}&#13;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/employee-service/src/main/resources/application.yml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/employee-service/src/main/resources/application.yml" />
+              <option name="updatedContent" value="spring:&#10;  application:&#10;    name: employee-service&#10;  datasource:&#10;    url: jdbc:postgresql://localhost:5432/employee_db&#10;    username: postgres&#10;    password: postgres&#10;    driver-class-name: org.postgresql.Driver&#10;  jpa:&#10;    hibernate:&#10;      ddl-auto: update&#10;    show-sql: false       # OFF by default — enable via 'dev' profile&#10;    properties:&#10;      hibernate:&#10;        dialect: org.hibernate.dialect.PostgreSQLDialect&#10;&#10;server:&#10;  port: 8082&#10;&#10;# Base URL for the department-service — change host/port for each environment&#10;department:&#10;  service:&#10;    base-url: http://localhost:8081&#10;&#10;---&#10;# Activate with: --spring.profiles.active=dev&#10;spring:&#10;  config:&#10;    activate:&#10;      on-profile: dev&#10;  jpa:&#10;    show-sql: true&#10;    properties:&#10;      hibernate:&#10;        format_sql: true&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

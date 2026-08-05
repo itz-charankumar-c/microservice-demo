@@ -1,9 +1,11 @@
 package com.demo.department.controller;
 
+import com.demo.department.dto.DepartmentResponseDto;
 import com.demo.department.entity.Department;
 import com.demo.department.service.DepartmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * REST controller exposing Department APIs.
- *
- * POST  /api/departments        – create a department
- * GET   /api/departments/{id}   – fetch a department by id
- */
+// POST /api/departments  – create | GET /api/departments/{id} – fetch
+@Slf4j
 @RestController
 @RequestMapping("/api/departments")
 @RequiredArgsConstructor
@@ -27,15 +25,18 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping
-    public ResponseEntity<Department> createDepartment(@Valid @RequestBody Department department) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(departmentService.createDepartment(department));
+    public ResponseEntity<DepartmentResponseDto> createDepartment(@Valid @RequestBody Department department) {
+        log.info("POST /api/departments - creating department with code={}", department.getCode());
+        DepartmentResponseDto created = departmentService.createDepartment(department);
+        log.info("POST /api/departments - department created with id={}", created.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) {
+    public ResponseEntity<DepartmentResponseDto> getDepartmentById(@PathVariable Long id) {
+        log.info("GET /api/departments/{} - fetching department", id);
         return departmentService.getDepartmentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(d -> { log.info("GET /api/departments/{} - found name={}", id, d.getName()); return ResponseEntity.ok(d); })
+                .orElseGet(() -> { log.warn("GET /api/departments/{} - not found", id); return ResponseEntity.notFound().build(); });
     }
 }

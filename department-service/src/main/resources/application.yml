@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: department-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/department_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false       # OFF in prod — enable via 'dev' profile
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
+
+---
+# Dev profile: activate with --spring.profiles.active=dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
